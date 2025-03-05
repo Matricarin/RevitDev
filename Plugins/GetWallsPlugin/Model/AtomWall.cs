@@ -7,9 +7,9 @@ public class AtomWall
     public ElementId Id { get; }
     public string Name { get; }
 
-    public AtomWall(ElementId id, string name)
+    public AtomWall(Wall wall)
     {
-        Id = id;
-        Name = name;
+        Id = wall.Id;
+        Name = wall.Name;
     }
 }
