@@ -3,6 +3,7 @@ using System.Linq;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using GetWallsPlugin.Providers;
 
 namespace GetWallsPlugin;
 
@@ -14,9 +15,10 @@ public class Plugin : IExternalCommand
     {
         var uiDoc = commandData.Application;
         var doc = uiDoc.ActiveUIDocument.Document;
-        var elementCollector = new FilteredElementCollector(doc);
-        var allWalls = elementCollector.OfClass(typeof(Wall)).WhereElementIsNotElementType().ToElements();
-        TaskDialog.Show("Walls: ",string.Join(Environment.NewLine, allWalls.Select(w => w.Name)) );
+        var atomWallsProvider = new AtomWallsProvider(doc);
+        var atomWalls = atomWallsProvider.GetAtomWalls();
+        var outputInfo = string.Join(Environment.NewLine, atomWalls.Select(wall => $"{wall.Id} : {wall.Name}"));
+        TaskDialog.Show("AtomWalls", outputInfo);
         return Result.Succeeded;
     }
 }

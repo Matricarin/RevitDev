@@ -11,6 +11,7 @@
 		<Platforms>AnyCPU;x86</Platforms>
 		<Copyright>Copyright ©  2025</Copyright>
 		<LangVersion>10</LangVersion>
+		<Nullable>enable</Nullable>
     </PropertyGroup>
 	
     <ItemGroup>
