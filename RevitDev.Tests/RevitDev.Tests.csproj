@@ -11,10 +11,12 @@
 
   <ItemGroup>
     <None Remove="TestFiles\create-dictionary-from-file.json" />
+    <None Remove="TestFiles\create-list-from-file.json" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="TestFiles\create-dictionary-from-file.json" />
+    <EmbeddedResource Include="TestFiles\create-list-from-file.json" />
   </ItemGroup>
 
   <ItemGroup>

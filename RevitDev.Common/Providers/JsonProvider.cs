@@ -9,7 +9,7 @@ namespace RevitDev.Common.Providers;
 
 public class JsonProvider
 {
-    public Dictionary<TK, TV> GetDictionaryFromResourceJson<TK, TV>(Assembly assembly, string resourceName)
+    public Dictionary<TK, TV> GetDictionaryFromEmbeddedResourceJson<TK, TV>(Assembly assembly, string resourceName)
     {
         var resourceNames = assembly.GetManifestResourceNames();
 
@@ -26,6 +26,34 @@ public class JsonProvider
             {
                 var json = reader.ReadToEnd();
                 var dict = JsonConvert.DeserializeObject<Dictionary<TK, TV>>(json);
+
+                if (dict == null)
+                {
+                    throw new NullReferenceException("Can't deserialize a resource");
+                }
+
+                return dict;
+            }
+        }
+    }
+
+    public List<T> GetListFromEmbeddedResourceJson<T>(Assembly assembly, string resourceName)
+    {
+        var resourceNames = assembly.GetManifestResourceNames();
+
+        var fullResourceName = resourceNames.First(n => n.Contains(resourceName));
+
+        using (var stream = assembly.GetManifestResourceStream(fullResourceName))
+        {
+            if (stream == null)
+            {
+                throw new NullReferenceException($"Check {resourceName}");
+            }
+
+            using (var reader = new StreamReader(stream))
+            {
+                var json = reader.ReadToEnd();
+                var dict = JsonConvert.DeserializeObject<List<T>>(json);
 
                 if (dict == null)
                 {
